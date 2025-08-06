@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Meta Pixel Setup Guide - Retargeting for Photography Business</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .step { background: #f8f9fa; padding: 20px; margin: 15px 0; border-left: 4px solid #1877f2; }
+        .important { background: #e3f2fd; padding: 15px; border: 1px solid #1976d2; border-radius: 5px; }
+        .success { background: #e8f5e9; padding: 15px; border: 1px solid #4caf50; border-radius: 5px; }
+        .code { background: #f0f0f0; padding: 10px; font-family: monospace; border-radius: 3px; }
+        h1 { color: #333; }
+        h2 { color: #1877f2; }
+        ul li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <h1>📘 Meta Pixel Setup - Facebook/Instagram Retargeting</h1>
+    <p><strong>Turn website visitors into photography clients!</strong> Meta Pixel lets you show targeted ads to people who visited your site but didn't book yet.</p>
+
+    <div class="step">
+        <h2>Step 1: Create Meta Pixel</h2>
+        <ol>
+            <li>Go to <a href="https://business.facebook.com/events_manager" target="_blank">Facebook Events Manager</a></li>
+            <li>Click <strong>"Create Pixel"</strong></li>
+            <li>Name it: <strong>"Oscar Espinoza Food Photography"</strong></li>
+            <li>Enter your website: <strong>https://food.oscarespinoza.co.uk</strong></li>
+            <li>Copy your <strong>Pixel ID</strong> (looks like: 123456789012345)</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h2>Step 2: Add Your Pixel ID</h2>
+        <ol>
+            <li>Open file: <span class="code">includes/meta-pixel.php</span></li>
+            <li>Find line: <span class="code">$META_PIXEL_ID = 'YOUR_PIXEL_ID';</span></li>
+            <li>Replace <span class="code">YOUR_PIXEL_ID</span> with your actual Pixel ID</li>
+            <li>Save the file</li>
+        </ol>
+        
+        <div class="important">
+            <strong>💡 Example:</strong><br>
+            <span class="code">$META_PIXEL_ID = '123456789012345';</span>
+        </div>
+    </div>
+
+    <div class="step">
+        <h2>Step 3: Create Custom Audiences</h2>
+        <p>In Facebook Ads Manager, create these audiences for retargeting:</p>
+        
+        <h3>🎯 High-Intent Visitors</h3>
+        <ul>
+            <li><strong>Event:</strong> InitiateCheckout (clicked Stripe buttons)</li>
+            <li><strong>Time window:</strong> 30 days</li>
+            <li><strong>Use for:</strong> "Book a shoot" ads</li>
+        </ul>
+
+        <h3>📧 Lead Warm-Up</h3>
+        <ul>
+            <li><strong>Event:</strong> Lead (submitted contact form)</li>
+            <li><strong>Time window:</strong> 180 days</li>
+            <li><strong>Use for:</strong> Portfolio showcase ads</li>
+        </ul>
+
+        <h3>🖼️ Portfolio Viewers</h3>
+        <ul>
+            <li><strong>Event:</strong> ViewContent on portfolio pages</li>
+            <li><strong>Time window:</strong> 30 days</li>
+            <li><strong>Use for:</strong> Service promotion ads</li>
+        </ul>
+
+        <h3>⏰ Service Page Visitors</h3>
+        <ul>
+            <li><strong>Event:</strong> Search (spent 30+ seconds on services)</li>
+            <li><strong>Time window:</strong> 7 days</li>
+            <li><strong>Use for:</strong> Urgency/discount ads</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h2>Step 4: Create Lookalike Audiences</h2>
+        <p>Once you have conversions, create lookalike audiences:</p>
+        <ul>
+            <li><strong>Source:</strong> People who paid deposits (InitiateCheckout)</li>
+            <li><strong>Location:</strong> United Kingdom</li>
+            <li><strong>Size:</strong> 1% (most similar)</li>
+            <li><strong>Use for:</strong> Finding new photography clients</li>
+        </ul>
+    </div>
+
+    <div class="success">
+        <h2>🎯 Retargeting Campaign Ideas</h2>
+        
+        <h3>💰 High-Intent Visitors (Clicked Pay Deposit)</h3>
+        <p><strong>Ad copy:</strong> "Ready to book your food photography session? Limited availability this month - secure your date today!"</p>
+        <p><strong>Creative:</strong> Before/after shots, client testimonials</p>
+        
+        <h3>📸 Portfolio Viewers</h3>
+        <p><strong>Ad copy:</strong> "Love what you saw? Professional food photography packages starting from £700. Perfect for restaurants and food brands."</p>
+        <p><strong>Creative:</strong> Best portfolio images, pricing overview</p>
+        
+        <h3>⏰ Service Page Visitors</h3>
+        <p><strong>Ad copy:</strong> "Still deciding? Book a free consultation this week and get 10% off your first shoot!"</p>
+        <p><strong>Creative:</strong> Behind-the-scenes video, process explanation</p>
+    </div>
+
+    <div class="step">
+        <h2>Step 5: Track Your Results</h2>
+        <p>Monitor these metrics in Facebook Ads Manager:</p>
+        <ul>
+            <li><strong>📧 Lead Events:</strong> Contact form submissions</li>
+            <li><strong>💳 InitiateCheckout:</strong> Stripe deposit clicks</li>
+            <li><strong>📞 Schedule Events:</strong> Consultation bookings</li>
+            <li><strong>🖼️ ViewContent:</strong> Portfolio engagement</li>
+            <li><strong>🔍 Search Events:</strong> High-intent visitors</li>
+        </ul>
+    </div>
+
+    <div class="important">
+        <h3>🔍 Testing Mode</h3>
+        <p>On <span class="code">localhost:8000</span>, Meta Pixel events are logged to browser console. Open DevTools → Console to see:</p>
+        <p><span class="code">📘 Meta Pixel Event: Stripe Click {packageName: "Menu Refresh", depositAmount: 650}</span></p>
+    </div>
+
+    <div class="success">
+        <h2>📈 Expected Results</h2>
+        <p><strong>Week 1-2:</strong> Data collection, audience building</p>
+        <p><strong>Week 3-4:</strong> Launch retargeting campaigns</p>
+        <p><strong>Month 2+:</strong> Optimize based on performance</p>
+        
+        <h3>💰 Typical ROI for Photography Businesses:</h3>
+        <ul>
+            <li><strong>Retargeting ROAS:</strong> 4-8x (£4-8 return per £1 spent)</li>
+            <li><strong>Conversion rate:</strong> 15-30% of retargeted visitors</li>
+            <li><strong>Cost per lead:</strong> £10-25 (much cheaper than cold traffic)</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h2>🎉 Pro Tips</h2>
+        <ul>
+            <li><strong>🎨 Creative variety:</strong> Use different portfolio images for each audience</li>
+            <li><strong>⏰ Frequency:</strong> Show ads 2-3 times per week max</li>
+            <li><strong>💬 Social proof:</strong> Include client reviews and testimonials</li>
+            <li><strong>📱 Mobile-first:</strong> Most food businesses browse on mobile</li>
+            <li><strong>🎯 Local targeting:</strong> Focus on Surrey & London area</li>
+            <li><strong>💰 Budget:</strong> Start with £5-10/day, scale based on results</li>
+        </ul>
+    </div>
+</body>
+</html>

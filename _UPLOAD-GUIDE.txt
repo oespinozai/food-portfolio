@@ -1,0 +1,45 @@
+========================================
+   WEBSITE UPLOAD GUIDE
+========================================
+
+✅ READY TO UPLOAD - DRAG & DROP THESE FILES/FOLDERS:
+
+📁 FOLDERS TO UPLOAD:
+- assets/          (contains your optimized images)
+- icons/           (social media icons)  
+- images/          (portfolio images)
+- includes/        (meta tags, analytics)
+
+📄 FILES TO UPLOAD:
+- *.php            (all PHP pages)
+- *.js             (JavaScript files)
+- *.css            (stylesheets)
+- *.json           (image metadata)
+- *.xml            (sitemap)
+- *.txt            (robots.txt)
+- favicon.ico
+
+❌ DO NOT UPLOAD:
+- _dev-files/      (development tools - keep locally)
+
+========================================
+   AFTER UPLOAD:
+========================================
+
+1. ✅ Test website works: https://yourdomain.com
+2. ✅ Test contact form submissions  
+3. ✅ Test Stripe payment buttons
+4. ✅ Check Google Analytics is tracking
+5. ✅ Submit to Google Search Console
+
+========================================
+   IMPORTANT NOTES:
+========================================
+
+🔧 CONTACT FORM: Update contact-handler.php with your email settings
+📊 ANALYTICS: Already configured with G-CC9ZJ0P8BX  
+💳 STRIPE: Payment links are live and ready
+🖼️ IMAGES: 204 optimized files ready for fast loading
+📱 MOBILE: Fully responsive and optimized
+
+Your website is PRODUCTION READY! 🚀

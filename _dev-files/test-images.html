@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Image Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .button { background: #007cba; color: white; padding: 10px 20px; border: none; cursor: pointer; margin: 10px 0; }
+        .result { background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Image Optimization Test</h1>
+    
+    <button class="button" onclick="testPHP()">Test PHP & GD</button>
+    <button class="button" onclick="runSimpleOptimize()">Run Simple Optimization</button>
+    
+    <div id="results"></div>
+
+    <script>
+        async function testPHP() {
+            try {
+                const response = await fetch('http://localhost:8000/simple-optimize.php?test=1');
+                const text = await response.text();
+                document.getElementById('results').innerHTML = `<div class="result">Response: ${text}</div>`;
+            } catch (error) {
+                document.getElementById('results').innerHTML = `<div class="result">Error: ${error.message}</div>`;
+            }
+        }
+        
+        async function runSimpleOptimize() {
+            document.getElementById('results').innerHTML = '<div class="result">Processing...</div>';
+            try {
+                const response = await fetch('http://localhost:8000/simple-optimize.php');
+                const result = await response.json();
+                document.getElementById('results').innerHTML = `<div class="result"><pre>${JSON.stringify(result, null, 2)}</pre></div>`;
+            } catch (error) {
+                document.getElementById('results').innerHTML = `<div class="result">Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

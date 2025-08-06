@@ -1,0 +1,10 @@
+{
+  "_README": "This file allows you to customize SEO metadata for your hero images. If a file is not listed here, smart defaults will be generated from the filename.",
+  "_EXAMPLE": {
+    "your-image-name.jpg": {
+      "alt": "Custom alt text for SEO - Professional food photography by Oscar Espinoza",
+      "category": "Food|Beverages|Restaurant|Appetizers",
+      "focus": "center 40%|left 30%|right 35%|etc"
+    }
+  }
+}

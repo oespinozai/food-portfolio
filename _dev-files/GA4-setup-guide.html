@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>GA4 Setup Guide - Oscar Espinoza Photography</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .step { background: #f8f9fa; padding: 20px; margin: 15px 0; border-left: 4px solid #28a745; }
+        .important { background: #fff3cd; padding: 15px; border: 1px solid #ffeaa7; border-radius: 5px; }
+        .success { background: #d4edda; padding: 15px; border: 1px solid #c3e6cb; border-radius: 5px; }
+        .code { background: #f0f0f0; padding: 10px; font-family: monospace; border-radius: 3px; }
+        h1 { color: #333; }
+        h2 { color: #28a745; }
+        ul li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Google Analytics 4 Setup Guide</h1>
+    <p><strong>Your photography website is ready for GA4!</strong> Just follow these steps to activate tracking.</p>
+
+    <div class="step">
+        <h2>Step 1: Create GA4 Property</h2>
+        <ol>
+            <li>Go to <a href="https://analytics.google.com/" target="_blank">Google Analytics</a></li>
+            <li>Sign in with your Google account</li>
+            <li>Click <strong>"Create Account"</strong> or <strong>"Admin"</strong> (gear icon)</li>
+            <li>Fill in:
+                <ul>
+                    <li><strong>Account name:</strong> "Oscar Espinoza Photography"</li>
+                    <li><strong>Property name:</strong> "Food Photography Website"</li>
+                    <li><strong>Industry:</strong> "Arts & Entertainment"</li>
+                    <li><strong>Business size:</strong> "Small"</li>
+                </ul>
+            </li>
+            <li>For Data Stream:
+                <ul>
+                    <li><strong>Platform:</strong> Web</li>
+                    <li><strong>Website URL:</strong> https://food.oscarespinoza.co.uk (your domain)</li>
+                    <li><strong>Stream name:</strong> "Food Photography Site"</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h2>Step 2: Get Your Measurement ID</h2>
+        <p>After creating the property, you'll see a <strong>Measurement ID</strong> like:</p>
+        <div class="code">G-XXXXXXXXXX</div>
+        <p>Copy this ID - you'll need it for the next step!</p>
+    </div>
+
+    <div class="step">
+        <h2>Step 3: Add Your Measurement ID</h2>
+        <ol>
+            <li>Open file: <span class="code">includes/analytics.php</span></li>
+            <li>Find line 4: <span class="code">$GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX';</span></li>
+            <li>Replace <span class="code">G-XXXXXXXXXX</span> with your actual Measurement ID</li>
+            <li>Save the file</li>
+        </ol>
+        
+        <div class="important">
+            <strong>⚠️ Important:</strong> The tracking only works on your live website, not on localhost:8000. This prevents development traffic from affecting your analytics.
+        </div>
+    </div>
+
+    <div class="step">
+        <h2>Step 4: Set Up Conversion Goals</h2>
+        <p>In your GA4 dashboard, go to <strong>Admin → Events → Create Event</strong> and set up these conversions:</p>
+        
+        <h3>📧 Lead Generation (Contact Form)</h3>
+        <ul>
+            <li><strong>Event name:</strong> generate_lead</li>
+            <li><strong>Description:</strong> Contact form submissions</li>
+            <li><strong>Mark as conversion:</strong> ✅ Yes</li>
+        </ul>
+
+        <h3>💳 Purchase Intent (Stripe Deposits)</h3>
+        <ul>
+            <li><strong>Event name:</strong> begin_checkout</li>
+            <li><strong>Description:</strong> Stripe payment clicks</li>
+            <li><strong>Mark as conversion:</strong> ✅ Yes</li>
+        </ul>
+
+        <h3>📞 Consultation Bookings</h3>
+        <ul>
+            <li><strong>Event name:</strong> schedule_consultation</li>
+            <li><strong>Description:</strong> Calendly booking clicks</li>
+            <li><strong>Mark as conversion:</strong> ✅ Yes</li>
+        </ul>
+    </div>
+
+    <div class="success">
+        <h2>🎯 What You'll Track</h2>
+        <ul>
+            <li><strong>📊 Visitor Analytics:</strong> Page views, session duration, bounce rate</li>
+            <li><strong>🎯 Lead Generation:</strong> Contact form submissions</li>
+            <li><strong>💰 Revenue Tracking:</strong> Stripe deposit payments</li>
+            <li><strong>📞 Consultation Requests:</strong> Calendly clicks</li>
+            <li><strong>🖼️ Portfolio Engagement:</strong> Image views by category</li>
+            <li><strong>📱 Device Data:</strong> Mobile vs desktop usage</li>
+            <li><strong>🌍 Geographic Data:</strong> Where your clients are located</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h2>Step 5: Test Your Tracking</h2>
+        <ol>
+            <li>Upload your website to your live domain</li>
+            <li>Visit your live website</li>
+            <li>In GA4, go to <strong>Reports → Realtime</strong></li>
+            <li>You should see your visit tracked!</li>
+            <li>Test conversions by:
+                <ul>
+                    <li>Clicking "Pay Deposit" buttons</li>
+                    <li>Submitting the contact form</li>
+                    <li>Clicking "Book Consultation"</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="important">
+        <h3>🔍 Development Mode</h3>
+        <p>On localhost:8000, analytics events are logged to the browser console instead of GA4. Open DevTools → Console to see tracking events during development.</p>
+    </div>
+
+    <div class="success">
+        <h2>✅ Expected Results</h2>
+        <p>Within 24-48 hours, you'll see:</p>
+        <ul>
+            <li><strong>Traffic sources:</strong> How people find your site (Google, social media, direct)</li>
+            <li><strong>Popular pages:</strong> Which services/portfolio items get most views</li>
+            <li><strong>Conversion rates:</strong> How many visitors become leads</li>
+            <li><strong>Device preferences:</strong> Mobile vs desktop usage patterns</li>
+            <li><strong>Geographic insights:</strong> Where your potential clients are located</li>
+        </ul>
+        
+        <p><strong>📈 Business Impact:</strong> Use this data to optimize your marketing, pricing, and content strategy!</p>
+    </div>
+</body>
+</html>

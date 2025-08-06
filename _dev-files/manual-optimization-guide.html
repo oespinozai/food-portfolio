@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Manual Image Optimization Guide</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .step { background: #f8f9fa; padding: 20px; margin: 15px 0; border-left: 4px solid #007cba; }
+        .tool { background: #e8f5e8; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .code { background: #f0f0f0; padding: 10px; font-family: monospace; border-radius: 3px; }
+        h1 { color: #333; }
+        h2 { color: #007cba; }
+        .warning { background: #fff3cd; padding: 15px; border: 1px solid #ffeaa7; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Manual Image Optimization Guide</h1>
+    
+    <div class="warning">
+        <strong>⚠️ PHP GD Extension Not Available</strong><br>
+        Since your PHP doesn't have GD support, we'll optimize images manually. This is actually often better quality anyway!
+    </div>
+
+    <div class="step">
+        <h2>Step 1: Choose Your Tool</h2>
+        
+        <div class="tool">
+            <h3>🌐 Squoosh (Recommended - Free Online)</h3>
+            <p><strong>URL:</strong> <a href="https://squoosh.app/" target="_blank">https://squoosh.app/</a></p>
+            <p><strong>Pros:</strong> Free, browser-based, excellent quality, supports WebP/AVIF</p>
+            <p><strong>Use for:</strong> All your hero images (15-20 images)</p>
+        </div>
+
+        <div class="tool">
+            <h3>💻 TinyPNG (Online)</h3>
+            <p><strong>URL:</strong> <a href="https://tinypng.com/" target="_blank">https://tinypng.com/</a></p>
+            <p><strong>Pros:</strong> Batch processing, maintains quality</p>
+            <p><strong>Cons:</strong> Only JPEG/PNG, not WebP/AVIF</p>
+        </div>
+
+        <div class="tool">
+            <h3>🔧 ImageOptim (Windows/Mac)</h3>
+            <p><strong>Download:</strong> Free desktop app</p>
+            <p><strong>Pros:</strong> Drag & drop, batch processing</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <h2>Step 2: Create Optimized Versions</h2>
+        
+        <p><strong>For each image in <span class="code">assets/hero-images/</span>:</strong></p>
+        
+        <ol>
+            <li><strong>Upload to Squoosh.app</strong></li>
+            <li><strong>Create these versions:</strong>
+                <ul>
+                    <li><strong>WebP format:</strong> Quality 80, resize to max 1200px wide</li>
+                    <li><strong>JPEG format:</strong> Quality 80, resize to max 1200px wide</li>
+                    <li><strong>Optional:</strong> AVIF format for even smaller files</li>
+                </ul>
+            </li>
+            <li><strong>Save to:</strong> <span class="code">assets/optimized/</span> folder</li>
+            <li><strong>Naming:</strong> Keep same filename but change extension
+                <ul>
+                    <li><span class="code">photo.jpg</span> → <span class="code">photo.webp</span></li>
+                    <li><span class="code">photo.jpg</span> → <span class="code">photo.jpg</span> (optimized)</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h2>Step 3: Quick Batch Processing with Squoosh</h2>
+        
+        <ol>
+            <li><strong>Go to:</strong> <a href="https://squoosh.app/" target="_blank">squoosh.app</a></li>
+            <li><strong>Drag</strong> your first image from <span class="code">assets/hero-images/</span></li>
+            <li><strong>Set right panel to:</strong>
+                <ul>
+                    <li>Format: WebP</li>
+                    <li>Quality: 80</li>
+                    <li>Resize: Max width 1200px</li>
+                </ul>
+            </li>
+            <li><strong>Download</strong> and save to <span class="code">assets/optimized/</span></li>
+            <li><strong>Repeat</strong> for JPEG format</li>
+            <li><strong>Continue</strong> with next image</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h2>Step 4: Expected Results</h2>
+        
+        <p><strong>Before:</strong> ~2MB JPEG files</p>
+        <p><strong>After:</strong></p>
+        <ul>
+            <li><strong>WebP:</strong> ~400-600KB (70% smaller)</li>
+            <li><strong>Optimized JPEG:</strong> ~600-800KB (60% smaller)</li>
+            <li><strong>AVIF:</strong> ~300-400KB (80% smaller)</li>
+        </ul>
+        
+        <p><strong>Performance improvement:</strong> Pages will load 3-5x faster!</p>
+    </div>
+
+    <div class="step">
+        <h2>Step 5: Test Your Optimized Site</h2>
+        
+        <p>Once you've optimized a few images:</p>
+        <ol>
+            <li>Refresh your website at <span class="code">localhost:8000</span></li>
+            <li>Open browser DevTools (F12) → Network tab</li>
+            <li>Reload page and check image sizes</li>
+            <li>You should see much smaller file sizes!</li>
+        </ol>
+    </div>
+
+    <div class="warning">
+        <h3>🎯 Priority Images to Optimize First:</h3>
+        <ul>
+            <li>Hero carousel images (most important)</li>
+            <li>Portfolio gallery images</li>
+            <li>Any images larger than 1MB</li>
+        </ul>
+        <p><strong>Tip:</strong> Start with 5-10 images to test, then batch process the rest.</p>
+    </div>
+
+    <script>
+        // Check current image sizes
+        console.log('Current hero images in assets/hero-images/:');
+        fetch('get-hero-images.php')
+            .then(r => r.json())
+            .then(images => {
+                console.log(`Found ${images.length} images to optimize`);
+                images.forEach(img => console.log(`- ${img.filename || img.src}`));
+            })
+            .catch(e => console.log('Could not load image list'));
+    </script>
+</body>
+</html>

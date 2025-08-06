@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Optimization Tool</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .button {
+            background: #635BFF;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .button:hover { background: #5449FF; }
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            display: none;
+        }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        pre { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 5px; 
+            overflow-x: auto;
+            font-size: 14px;
+        }
+        .progress {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .progress-bar {
+            height: 100%;
+            background: #28a745;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Image Optimization Tool</h1>
+        <p>This tool will create optimized WebP and AVIF versions of your images with multiple sizes for responsive design.</p>
+        
+        <div class="status info" id="info">
+            <strong>Before starting:</strong><br>
+            • Make sure your PHP server is running<br>
+            • Ensure GD extension is enabled with WebP support<br>
+            • This will process images in: <code>assets/hero-images/</code><br>
+            • Optimized images will be saved to: <code>assets/optimized/</code>
+        </div>
+
+        <button class="button" onclick="startOptimization()">🎯 Start Image Optimization</button>
+        
+        <div class="progress" id="progress" style="display: none;">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <div class="status" id="status"></div>
+        <div id="results" style="display: none;">
+            <h3>Optimization Results:</h3>
+            <pre id="results-content"></pre>
+        </div>
+
+        <hr style="margin: 30px 0;">
+        
+        <h2>📋 Manual Steps (Alternative)</h2>
+        <p>If the automatic optimization doesn't work, you can manually optimize images:</p>
+        
+        <ol>
+            <li><strong>Install image optimization tools:</strong>
+                <ul>
+                    <li>Download <a href="https://squoosh.app/" target="_blank">Squoosh.app</a> (online tool)</li>
+                    <li>Or install <code>cwebp</code> and <code>cavif</code> tools</li>
+                </ul>
+            </li>
+            <li><strong>Create optimized versions:</strong>
+                <ul>
+                    <li>Create <code>assets/optimized/</code> folder</li>
+                    <li>For each image, create: 400w, 800w, 1200w, 1600w sizes</li>
+                    <li>Save as: WebP, AVIF, and JPEG formats</li>
+                </ul>
+            </li>
+            <li><strong>Naming convention:</strong>
+                <ul>
+                    <li><code>filename-400w.webp</code></li>
+                    <li><code>filename-800w.avif</code></li>
+                    <li><code>filename-1200w.jpg</code></li>
+                </ul>
+            </li>
+        </ol>
+        
+        <h3>🔧 PHP Requirements Check</h3>
+        <button class="button" onclick="checkRequirements()">Check PHP Image Support</button>
+        <div id="php-info" style="display: none;">
+            <pre id="php-info-content"></pre>
+        </div>
+    </div>
+
+    <script>
+        async function startOptimization() {
+            const statusDiv = document.getElementById('status');
+            const progressDiv = document.getElementById('progress');
+            const progressBar = document.getElementById('progress-bar');
+            const resultsDiv = document.getElementById('results');
+            const resultsContent = document.getElementById('results-content');
+            
+            // Show progress
+            progressDiv.style.display = 'block';
+            statusDiv.style.display = 'block';
+            statusDiv.className = 'status info';
+            statusDiv.innerHTML = '🔄 Starting image optimization...';
+            progressBar.style.width = '10%';
+            
+            try {
+                const response = await fetch('optimize-images.php');
+                progressBar.style.width = '50%';
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                progressBar.style.width = '100%';
+                
+                // Show results
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `✅ Optimization completed! Processed ${result.processed} images.`;
+                
+                resultsContent.textContent = JSON.stringify(result, null, 2);
+                resultsDiv.style.display = 'block';
+                
+                if (result.errors && result.errors.length > 0) {
+                    statusDiv.innerHTML += `<br><br><strong>⚠️ Warnings:</strong><br>${result.errors.join('<br>')}`;
+                }
+                
+            } catch (error) {
+                progressBar.style.width = '100%';
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ Error: ${error.message}<br><br>Make sure your PHP server is running and has GD extension enabled.`;
+            }
+        }
+        
+        async function checkRequirements() {
+            const phpInfoDiv = document.getElementById('php-info');
+            const phpInfoContent = document.getElementById('php-info-content');
+            
+            try {
+                const response = await fetch('data:text/php,<?php phpinfo(INFO_MODULES); ?>');
+                phpInfoContent.textContent = 'PHP GD Extension: ' + (typeof response === 'object' ? 'Available' : 'Check manually');
+                phpInfoDiv.style.display = 'block';
+            } catch (error) {
+                phpInfoContent.textContent = 'Please check manually: php -m | grep -i gd';
+                phpInfoDiv.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
