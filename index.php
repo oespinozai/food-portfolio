@@ -32,7 +32,7 @@
         <section class="featured-work-section">
             <div class="container">
                 <div class="carousel-container">
-                    <img id="hero-carousel-image" src="assets/hero-images/" alt="Professional food photography by Oscar Espinoza - Commercial food photography Surrey London" style="object-position: center 40%;">
+<img id="hero-carousel-image" src="assets/optimized/strand-uber-140-1200w.jpg" alt="Professional food photography by Oscar Espinoza - Commercial food photography Surrey London" style="object-position: center 40%;">
                     <div class="featured-cta">
                         <a href="portfolio.php" class="btn-primary">View Full Portfolio</a>
                     </div>

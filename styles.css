@@ -135,27 +135,27 @@ hr {
 .hamburger-menu {
     display: none;
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 16px;
+    right: 16px;
     z-index: 3001;
     cursor: pointer;
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     background: rgba(255, 255, 255, 0.96);
     border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.16);
     border: 1px solid rgba(0,0,0,0.08);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    transition: box-shadow .2s ease, background .2s ease, transform .2s ease;
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
 }
 
 .hamburger-menu:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.18);
 }
 
 .hamburger-menu:active {
@@ -165,7 +165,7 @@ hr {
 
 /* Perfectly centered hamburger bars */
 .hamburger-icon {
-    width: 24px;
+    width: 22px;
     height: 16px;
     position: relative;
     display: flex;
@@ -181,7 +181,7 @@ hr {
     background: #111;
     border-radius: 2px;
     transform-origin: 50% 50%;
-    transition: none; /* Remove all animations */
+    transition: transform .2s ease, opacity .2s ease, width .2s ease;
     position: relative;
 }
 
@@ -189,7 +189,6 @@ hr {
     align-self: stretch;
 }
 .hamburger-icon span:nth-child(2) { 
-    width: 80%;
     align-self: flex-end;
 }
 .hamburger-icon span:nth-child(3) { 
@@ -228,40 +227,40 @@ hr {
     .hamburger-menu {
         display: flex !important;
         position: fixed !important;
-        top: 20px !important;
-        right: 20px !important;
-        width: 50px !important;
-        height: 50px !important;
+        top: 16px !important;
+        right: 16px !important;
+        width: 46px !important;
+        height: 46px !important;
         z-index: 3001 !important;
     }
 
     .hamburger-icon {
         position: static !important;
-        width: 24px !important;
-        height: 18px !important;
+        width: 22px !important;
+        height: 16px !important;
         margin: auto !important;
     }
 
-/* Mobile navigation drawer - larger to closely match desktop */
+/* Mobile navigation drawer - refined sizing */
     .main-nav {
         position: fixed !important;
         top: 0 !important;
-        left: -380px !important;
+        left: -340px !important;
         height: 100vh !important;
-        width: 380px !important;
+        width: 340px !important;
         background: #fff !important;
-        padding: 40px !important; /* Much closer to desktop 50px */
+        padding: 32px !important;
         z-index: 3000 !important;
-        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
         box-shadow: none !important;
-        overflow-y: auto !important; /* Allow scrolling if needed */
+        overflow-y: auto !important;
         display: flex !important;
         flex-direction: column;
     }
 
     .main-nav.active { 
         left: 0 !important; 
-        box-shadow: 2px 0 30px rgba(0,0,0,0.2) !important; 
+        box-shadow: 2px 0 24px rgba(0,0,0,0.18) !important; 
     }
 
     /* Logo section - matching desktop spacing and sizing */
@@ -557,11 +556,13 @@ hr {
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.45);
         z-index: 2999;
         opacity: 0;
         visibility: hidden;
-        transition: all 0.3s ease;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+        -webkit-backdrop-filter: blur(2px);
+        backdrop-filter: blur(2px);
     }
 
     .nav-overlay.active {

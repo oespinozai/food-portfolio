@@ -56,85 +56,89 @@ document.addEventListener('DOMContentLoaded', function() {
                 </picture>`;
     }
 
-    // ===== HERO CAROUSEL ROTATION =====
+ // ===== HERO CAROUSEL ROTATION =====
     const carouselImage = document.getElementById('hero-carousel-image');
     if (carouselImage) {
-        // Function to load optimized images from assets/hero-images folder
+        // Function to load optimized images; ensure we only return images with valid src
         async function loadHeroImages() {
             try {
                 const response = await fetch('get-optimized-images.php');
                 const images = await response.json();
-                return images;
-            } catch (error) {
-                console.log('Fallback to original images');
-                // Fallback to original image system
-                try {
-                    const fallbackResponse = await fetch('get-hero-images.php');
-                    return await fallbackResponse.json();
-                } catch (fallbackError) {
-                    console.log('Using hardcoded fallback images');
-                    return [
-                        {
-                            src: 'images/food/strand-uber-137.jpg',
-                            focus: 'center 40%'
-                        },
-                    {
-                        src: 'images/food/strand-uber-140.jpg',
-                        focus: 'center 35%'
-                    },
-                    {
-                        src: 'images/food/strand-uber-143.jpg',
-                        focus: 'center 45%'
-                    },
-                    {
-                        src: 'images/food/strand-uber-146.jpg',
-                        focus: 'center 40%'
+                // Map optimized images to direct JPEG fallback src to ensure <img> can load
+                const mapped = (images || []).map(img => {
+                    // Prefer jpeg fallback from srcset if present, else original src
+                    if (img && img.srcset) {
+                        // pick the largest jpeg url from srcset
+                        const parts = img.srcset.split(',').map(s => s.trim());
+                        const last = parts[parts.length - 1] || '';
+                        const url = (last.split(' ')[0] || '').trim();
+                        if (url) {
+                            return {
+                                ...img,
+                                src: url // ensure <img> src is a concrete file in assets/optimized
+                            };
+                        }
                     }
+                    return img;
+                }).filter(Boolean);
+                if (mapped.length) return mapped;
+            } catch (error) {
+                console.log('Optimized endpoint failed, falling back to original images', error);
+            }
+
+            // Fallback to original image system
+            try {
+                const fallbackResponse = await fetch('get-hero-images.php');
+                return await fallbackResponse.json();
+            } catch (fallbackError) {
+                console.log('Using hardcoded fallback images', fallbackError);
+                return [
+                    { src: 'assets/hero-images/strand-uber-140.jpg', focus: 'center 35%', alt: 'Commercial food photography Surrey London' }
                 ];
             }
         }
 
         let bestImages = [];
         let currentIndex = 0;
-        
+
         // Initialize carousel
         async function initCarousel() {
             bestImages = await loadHeroImages();
-            
+
             // Set first image
             if (bestImages.length > 0) {
                 carouselImage.src = bestImages[0].src;
-                carouselImage.alt = bestImages[0].alt;
-                carouselImage.style.objectPosition = bestImages[0].focus;
+                carouselImage.alt = bestImages[0].alt || 'Professional food photography by Oscar Espinoza';
+                carouselImage.style.objectPosition = bestImages[0].focus || 'center 40%';
                 updateImageStructuredData(bestImages[0]);
             }
-            
+
             // Preload all carousel images
             bestImages.forEach(imageObj => {
                 const img = new Image();
                 img.src = imageObj.src;
             });
-            
+
             // Start rotation if we have images
             if (bestImages.length > 1) {
                 setInterval(rotateCarouselImage, 4000);
             }
         }
-        
+
         function rotateCarouselImage() {
             if (bestImages.length === 0) return;
-            
+
             currentIndex = (currentIndex + 1) % bestImages.length;
             const currentImage = bestImages[currentIndex];
-            
+
             carouselImage.style.opacity = '0';
-            
+
             setTimeout(() => {
                 carouselImage.src = currentImage.src;
-                carouselImage.alt = currentImage.alt;
-                carouselImage.style.objectPosition = currentImage.focus;
+                carouselImage.alt = currentImage.alt || 'Professional food photography by Oscar Espinoza';
+                carouselImage.style.objectPosition = currentImage.focus || 'center 40%';
                 carouselImage.style.opacity = '1';
-                
+
                 // Add structured data for SEO
                 updateImageStructuredData(currentImage);
             }, 250);
